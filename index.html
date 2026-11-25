@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Weekly Ta-Da</title>
+<style>
+  :root{--bg:#f4f1eb;--card:#fffdf9;--ink:#2f3b37;--muted:#68746f;--sage:#a9c3b3;--sage2:#dce9e1;--blue:#cbdde2;--lav:#ddd7e8;--peach:#ead8c9;--accent:#527466;--line:#dedbd4;--shadow:0 12px 34px rgba(55,72,65,.10);--page1:#f6f2eb;--page2:#edf4ef;--input:#fff;--soft:#eef3f0;--tada1:#eef6f1;--tada2:#fffaf3}
+  body.dark{--bg:#18201d;--card:#242e2a;--ink:#ffffff;--muted:#d7e0dc;--sage:#a9c9b9;--sage2:#31483e;--blue:#31474e;--lav:#433e50;--peach:#514238;--accent:#b9e3cf;--line:#66756e;--shadow:0 12px 34px rgba(0,0,0,.25);--page1:#17201c;--page2:#202a26;--input:#1d2622;--soft:#303d37;--tada1:#25372f;--tada2:#342f28}
+  body.dark .panel{background:#202a26;border-color:#52635b}
+  body.dark .panel .section-title{color:#ffffff}
+  body.dark .panel .hint{color:#e6eeea}
+  body.dark .panel .hint strong{color:#ffffff}
+  body.dark .focus-Social-Friendships{background:#3f4538} body.dark .focus-Significant-Other{background:#493b41} body.dark .focus-count{color:#f4f7f5;background:rgba(0,0,0,.28)} body.dark .check{background:#26332d;border-color:#b9e3cf} body.dark .empty{border-color:#718079;color:#e1e8e4} body.dark .delegate{color:#d5f2e4} body.dark button.add{color:#15211b;background:#b9e3cf} body.dark .theme-toggle:focus-visible,body.dark button:focus-visible,body.dark input:focus-visible{outline:3px solid #d8f5e7;outline-offset:2px}
+  *{box-sizing:border-box} body{margin:0;background:linear-gradient(145deg,var(--page1),var(--page2));transition:background .2s,color .2s;font-family:Inter,ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;color:var(--ink);min-height:100vh}
+  .app{max-width:1050px;margin:auto;padding:26px 20px 40px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px}.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.theme-toggle{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 13px;border-radius:16px;font-weight:850;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap;touch-action:manipulation}
+  h1{margin:0;font-size:clamp(28px,4vw,45px);letter-spacing:-1.4px}.sub{color:var(--muted);margin:5px 0 0;max-width:650px;line-height:1.45}.week{background:var(--card);padding:10px 14px;border-radius:16px;font-weight:750;box-shadow:var(--shadow);white-space:nowrap}
+  .panel{background:rgba(255,253,249,.92);border:1px solid rgba(255,255,255,.7);border-radius:26px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:850;color:var(--accent);margin-bottom:8px}.section-title{font-size:21px;font-weight:850;margin:0 0 6px}.hint{font-size:14px;color:var(--muted);margin:0 0 15px}
+  .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cat{position:relative;border:0;border-radius:18px;padding:15px 34px 15px 8px;min-height:58px;font-weight:900;font-size:16px;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;transition:.18s transform,.18s box-shadow;outline:2px solid transparent}.cat::after{content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.58);border:2px solid rgba(47,59,55,.22)}.cat:hover{transform:translateY(-2px)}.cat[aria-pressed="true"]{outline:3px solid var(--accent);box-shadow:0 5px 15px rgba(82,116,102,.16);transform:translateY(-1px)}.cat[aria-pressed="true"]::after{content:"✓";display:grid;place-items:center;background:var(--accent);border-color:var(--accent);color:white;font-size:14px;font-weight:950}
+  .cat:nth-child(1){background:var(--sage2)}.cat:nth-child(2){background:var(--blue)}.cat:nth-child(3){background:var(--lav)}.cat:nth-child(4){background:var(--peach)}.cat:nth-child(5){background:#e8e4d5}.cat:nth-child(6){background:#eadfe3}
+  .workspace{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.taskbox{display:flex;gap:10px;margin-top:14px}.taskbox input{flex:1;border:1px solid var(--line);border-radius:15px;padding:14px 15px;font-size:16px;background:var(--input);color:var(--ink);outline:none}.taskbox input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(82,116,102,.12)}
+  button.add{border:0;border-radius:15px;padding:0 18px;background:var(--accent);color:white;font-weight:850;font-size:15px;cursor:pointer}.energy{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.energy button{border:1px solid var(--line);background:var(--input);padding:8px 11px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:700}.energy button.on{background:var(--sage2);border-color:var(--sage);color:var(--ink)}
+  .tasklist,.tadalist{display:grid;gap:12px;margin-top:15px}.focus-group{border-radius:20px;padding:13px;border:1px solid var(--line)}.focus-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;font-weight:900}.focus-count{font-size:12px;font-weight:800;color:var(--muted);background:rgba(255,255,255,.65);padding:4px 8px;border-radius:999px}.focus-items{display:grid;gap:8px}.focus-Home{background:var(--sage2)}.focus-Work{background:var(--blue)}.focus-Self-Care{background:var(--lav)}.focus-Kids{background:var(--peach)}.focus-Social-Friendships{background:#e8e4d5}.focus-Significant-Other{background:#eadfe3}.task{display:flex;align-items:center;gap:11px;background:var(--input);border:1px solid var(--line);border-radius:17px;padding:12px 13px;animation:slide .28s ease}.check{width:25px;height:25px;border-radius:8px;border:2px solid var(--sage);background:#f8fbf9;cursor:pointer;display:grid;place-items:center;flex:none}.tasktext{flex:1;font-weight:750}.meta{font-size:12px;color:var(--muted);margin-top:2px}.delegate{border:0;background:var(--soft);border-radius:10px;padding:7px 9px;color:var(--accent);font-weight:800;cursor:pointer}.tada{background:linear-gradient(145deg,var(--tada1),var(--tada2))}.done{opacity:.82}.done .tasktext{text-decoration:line-through;text-decoration-thickness:2px}.empty{color:var(--muted);border:1px dashed #cfd7d2;border-radius:16px;padding:18px;text-align:center;font-size:14px}.footer{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:13px}.reset{border:0;background:transparent;color:var(--accent);font-weight:850;cursor:pointer}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,25px);background:#334a40;color:white;padding:11px 17px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+  .confetti{position:fixed;width:9px;height:9px;border-radius:3px;pointer-events:none;z-index:9;animation:fall 850ms ease-out forwards}
+  @keyframes fall{to{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}} @keyframes slide{from{opacity:0;transform:translateY(-6px)}}
+  @media(max-width:760px){.categories{grid-template-columns:repeat(2,1fr)}.workspace{grid-template-columns:1fr}.top{display:block}.week{display:inline-block;margin-top:14px}.taskbox{flex-direction:column}.add{min-height:46px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div><h1>Weekly Ta‑Da ✨</h1><p class="sub">A gentle place to hold the week. Pick what matters, name one doable task, and celebrate the finish—without building another complicated system.</p></div><div class="top-actions"><button class="theme-toggle" id="themeToggle" aria-pressed="false">🌙 Dark mode</button><div class="week">This week · fresh start</div></div></header>
+
+  <section class="panel">
+    <div class="eyebrow">1 · Choose your focus</div><h2 class="section-title">Build that snowball! Which category can you create quick wins and build momentum? Select the low-hanging fruit first.</h2><p class="hint">Tap as many as you need this week. Selected focuses stay highlighted, and you can change them anytime.</p>
+    <div class="categories" id="cats">
+      <button class="cat" data-cat="Home" aria-pressed="true">🏡 Home</button><button class="cat" data-cat="Work" aria-pressed="false">💼 Work</button><button class="cat" data-cat="Self-Care" aria-pressed="false">🌿 Self-Care</button><button class="cat" data-cat="Kids" aria-pressed="false">🧸 Kids</button><button class="cat" data-cat="Social/Friendships" aria-pressed="false">💛 Social/Friendships</button><button class="cat" data-cat="Significant Other" aria-pressed="false">💕 Significant Other</button>
+    </div>
+  </section>
+
+  <div class="workspace">
+    <section class="panel">
+      <div class="eyebrow">2 · One task</div><h2 class="section-title">Make it visible, not perfect.</h2><p class="hint">Weekly focuses: <strong id="chosen">Home</strong>. Choose a highlighted focus below for this task.</p>
+      <div class="energy" id="taskCats" aria-label="Choose a focus for this task"></div><div class="taskbox"><input id="taskInput" maxlength="80" value="Put away one basket of laundry" aria-label="Task"/><button class="add" id="addBtn">+ Add</button></div>
+      
+      <p class="hint" style="margin-top:15px;margin-bottom:0">Your list organizes itself by focus and matches the colors above.</p><div class="tasklist" id="taskList"></div>
+    </section>
+
+    <section class="panel tada">
+      <div class="eyebrow">3 · Ta‑Da!</div><h2 class="section-title">Done counts. 🎉</h2><p class="hint">Completed tasks land here so progress stays visible.</p>
+      <div class="tadalist" id="tadaList"><div class="empty" id="emptyTada">Your first Ta‑Da is waiting for you.</div></div>
+    </section>
+  </div>
+
+  <div class="footer"><span>💡 “Delegate” marks a task to hand off—no extra app required.</span><button class="reset" id="reset">Reset this week</button></div>
+</div>
+<div class="toast" id="toast">Ta‑da! One less thing carrying space in your head. ✨</div>
+<script>
+const themeToggle=document.getElementById('themeToggle');
+function setTheme(dark){document.body.classList.toggle('dark',dark);themeToggle.setAttribute('aria-pressed',String(dark));themeToggle.textContent=dark?'☀️ Light mode':'🌙 Dark mode';try{localStorage.setItem('weekly-tada-theme',dark?'dark':'light')}catch(e){}}
+try{setTheme(localStorage.getItem('weekly-tada-theme')==='dark')}catch(e){setTheme(false)}
+themeToggle.addEventListener('click',()=>setTheme(!document.body.classList.contains('dark')));
+const cats=[...document.querySelectorAll('.cat')], chosen=document.getElementById('chosen'), input=document.getElementById('taskInput'), list=document.getElementById('taskList'), tada=document.getElementById('tadaList'), toast=document.getElementById('toast');
+let selectedCategories=['Home'], category='Home', tasks=[];
+function updateFocusUI(){
+  chosen.textContent=selectedCategories.length ? selectedCategories.join(' · ') : 'Choose at least one above';
+  const taskCats=document.getElementById('taskCats'); taskCats.innerHTML='';
+  selectedCategories.forEach(name=>{const b=document.createElement('button');b.textContent=name;b.dataset.cat=name;b.className=name===category?'on':'';b.onclick=()=>{category=name;updateFocusUI()};taskCats.appendChild(b)});
+  if(!selectedCategories.includes(category)) category=selectedCategories[0]||'';
+}
+function toggleFocus(b){
+  const name=b.dataset.cat;
+  const wasSelected=b.getAttribute('aria-pressed')==='true';
+  b.setAttribute('aria-pressed', wasSelected ? 'false' : 'true');
+  selectedCategories=cats.filter(x=>x.getAttribute('aria-pressed')==='true').map(x=>x.dataset.cat);
+  if(!wasSelected && !category) category=name;
+  if(wasSelected && category===name) category=selectedCategories[0]||'';
+  updateFocusUI();
+}
+cats.forEach(b=>{
+  b.addEventListener('click', e=>{e.preventDefault(); toggleFocus(b);});
+});
+function groupClass(name){return 'focus-'+name.replace(/[^a-zA-Z0-9]+/g,'-').replace(/-+$/,'')}
+function renderGroups(container,items,isDone){
+  container.innerHTML='';
+  if(!items.length){container.innerHTML=`<div class="empty">${isDone?'Your first Ta‑Da is waiting for you.':'Nothing waiting here. Add one task when you’re ready.'}</div>`;return;}
+  const order=[...selectedCategories,...cats.map(x=>x.dataset.cat)].filter((v,i,a)=>a.indexOf(v)===i);
+  order.forEach(name=>{
+    const groupItems=items.filter(t=>t.category===name); if(!groupItems.length)return;
+    const group=document.createElement('section');group.className='focus-group '+groupClass(name);
+    const head=document.createElement('div');head.className='focus-head';head.innerHTML=`<span>${name}</span><span class="focus-count">${groupItems.length} ${groupItems.length===1?'task':'tasks'}</span>`;
+    const inner=document.createElement('div');inner.className='focus-items';groupItems.forEach(t=>inner.appendChild(card(t,isDone)));group.append(head,inner);container.appendChild(group);
+  });
+}
+function render(){renderGroups(list,tasks.filter(t=>!t.done),false);renderGroups(tada,tasks.filter(t=>t.done),true)}
+function card(t,isDone){const el=document.createElement('div');el.className='task '+(isDone?'done':'');el.innerHTML=`<button class="check" aria-label="${isDone?'Completed':'Mark complete'}">${isDone?'✓':''}</button><div class="tasktext">${escapeHTML(t.text)}<div class="meta">${t.category}${t.delegated?' · delegated ↗':''}</div></div>${isDone?'':`<button class="delegate">${t.delegated?'Delegated ✓':'Delegate ↗'}</button>`}`;el.querySelector('.check').onclick=(e)=>{if(!isDone){t.done=true;render();celebrate(e.clientX||innerWidth/2,e.clientY||innerHeight/2)}};const d=el.querySelector('.delegate');if(d)d.onclick=()=>{t.delegated=!t.delegated;render()};return el}
+function add(){const text=input.value.trim();if(!text)return;if(!category){toast.textContent='Choose at least one weekly focus first. ✨';toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');toast.textContent='Ta‑da! One less thing carrying space in your head. ✨'},1800);return;}tasks.push({id:Date.now(),text,category,done:false,delegated:false});input.value='';render();input.focus()}
+document.getElementById('addBtn').onclick=add;input.addEventListener('keydown',e=>{if(e.key==='Enter')add()});document.getElementById('reset').onclick=()=>{tasks=[];selectedCategories=['Home'];category='Home';cats.forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.cat==='Home')));input.value='Put away one basket of laundry';updateFocusUI();render()};
+function celebrate(x,y){toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800);const colors=['#a9c3b3','#cbdde2','#ddd7e8','#ead8c9','#f0d889'];for(let i=0;i<22;i++){const p=document.createElement('i');p.className='confetti';p.style.left=x+'px';p.style.top=y+'px';p.style.background=colors[i%colors.length];p.style.setProperty('--x',(Math.random()*220-110)+'px');p.style.setProperty('--y',(Math.random()*180+50)+'px');document.body.appendChild(p);setTimeout(()=>p.remove(),900)}}
+function escapeHTML(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+updateFocusUI();render();
+</script>
+</body></html>
